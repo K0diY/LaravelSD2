@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -37,5 +38,10 @@ class UserController extends Controller
         ];
 
         return view('admin.users.edit', compact('user'));
+    }
+
+    public function update(UserRequest $request, $id)
+    {
+        return redirect('/admin/users')->with('success', 'User updated successfully.');
     }
 }

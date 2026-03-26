@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/{id}/edit', [UserController::class, 'edit']);
+    Route::post('/users/{id}', [UserController::class, 'update']);
 
     Route::get('/conferences', [ConferenceController::class, 'index']);
     Route::get('/conferences/create', [ConferenceController::class, 'create']);
