@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\ConferenceRequest;
 
 class ConferenceController extends Controller
 {
@@ -18,12 +18,14 @@ class ConferenceController extends Controller
             [
                 'id' => 1,
                 'title' => 'Laravel konferencija',
+                'description' => 'Apie Laravel framework',
                 'date' => '2026-04-01',
                 'location' => 'Vilnius'
             ],
             [
                 'id' => 2,
                 'title' => 'PHP konferencija',
+                'description' => 'Apie PHP',
                 'date' => '2026-05-10',
                 'location' => 'Kaunas'
             ]
@@ -37,6 +39,11 @@ class ConferenceController extends Controller
         return view('admin.conferences.create');
     }
 
+    public function store(ConferenceRequest $request)
+    {
+        return redirect('/admin/conferences')->with('success', 'Conference created successfully.');
+    }
+
     public function edit($id)
     {
         $conference = [
@@ -48,5 +55,15 @@ class ConferenceController extends Controller
         ];
 
         return view('admin.conferences.edit', compact('conference'));
+    }
+
+    public function update(ConferenceRequest $request, $id)
+    {
+        return redirect('/admin/conferences')->with('success', 'Conference updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        return redirect('/admin/conferences')->with('success', 'Conference deleted successfully.');
     }
 }

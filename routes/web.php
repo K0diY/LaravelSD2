@@ -28,4 +28,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/conferences', [ConferenceController::class, 'index']);
     Route::get('/conferences/create', [ConferenceController::class, 'create']);
     Route::get('/conferences/{id}/edit', [ConferenceController::class, 'edit']);
+    Route::post('/conferences', [ConferenceController::class, 'store']);
+    Route::post('/conferences/{id}', [ConferenceController::class, 'update']);
+    Route::post('/conferences/{id}/delete', [ConferenceController::class, 'destroy']);
 });
