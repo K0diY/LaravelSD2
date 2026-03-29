@@ -2,46 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Conference;
 
 class EmployeeController extends Controller
 {
-     public function index()
+    public function index()
     {
-        $conferences = [
-            [
-                'id' => 1,
-                'title' => 'Laravel konferencija',
-                'date' => '2026-04-01',
-                'location' => 'Vilnius'
-            ],
-            [
-                'id' => 2,
-                'title' => 'PHP konferencija',
-                'date' => '2026-05-10',
-                'location' => 'Kaunas'
-            ]
-        ];
+        $conferences = Conference::all();
 
         return view('employee.index', compact('conferences'));
     }
 
     public function show($id)
     {
-        $conference = [
-            'id' => $id,
-            'title' => 'Laravel konferencija',
-            'description' => 'Apie Laravel framework',
-            'date' => '2026-04-01',
-            'location' => 'Vilnius'
-        ];
-
-        $participants = [
-            'Jonas Jonaitis',
-            'Petras Petraitis',
-            'Ona Onaite'
-        ];
+        $conference = Conference::with('users')->findOrFail($id);
+        $participants = $conference->users;
 
         return view('employee.show', compact('conference', 'participants'));
     }
