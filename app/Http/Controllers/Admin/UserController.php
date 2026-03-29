@@ -3,45 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = [
-            [
-                'id' => 1,
-                'name' => 'Jonas',
-                'surname' => 'Jonaitis',
-                'email' => 'jonas@example.com'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Ona',
-                'surname' => 'Onaite',
-                'email' => 'ona@example.com'
-            ]
-        ];
+        $users = User::all();
 
         return view('admin.users.index', compact('users'));
     }
 
     public function edit($id)
     {
-        $user = [
-            'id' => $id,
-            'name' => 'Jonas',
-            'surname' => 'Jonaitis',
-            'email' => 'jonas@example.com'
-        ];
+        $user = User::findOrFail($id);
 
         return view('admin.users.edit', compact('user'));
     }
 
     public function update(UserRequest $request, $id)
     {
-        return redirect('/admin/users')->with('success', __('messages.user_updated'));
+        $user = User::findOrFail($id);
+
+        $user->update($request->validated());
+
+        return redirect('/admin/users')
+            ->with('success', __('messages.user_updated'));
     }
 }
