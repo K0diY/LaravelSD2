@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="/admin/conferences/{{ $conference['id'] }}">
+            <form method="POST" action="/admin/conferences/{{ $conference->id }}">
                 @csrf
                 @include('admin.conferences.form')
             </form>

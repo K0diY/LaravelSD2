@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConferenceRequest;
+use App\Models\Conference;
 
 class ConferenceController extends Controller
 {
@@ -14,22 +15,7 @@ class ConferenceController extends Controller
 
     public function index()
     {
-        $conferences = [
-            [
-                'id' => 1,
-                'title' => 'Laravel konferencija',
-                'description' => 'Apie Laravel framework',
-                'date' => '2026-04-01',
-                'location' => 'Vilnius'
-            ],
-            [
-                'id' => 2,
-                'title' => 'PHP konferencija',
-                'description' => 'Apie PHP',
-                'date' => '2026-05-10',
-                'location' => 'Kaunas'
-            ]
-        ];
+        $conferences = Conference::all();
 
         return view('admin.conferences.index', compact('conferences'));
     }
@@ -41,29 +27,34 @@ class ConferenceController extends Controller
 
     public function store(ConferenceRequest $request)
     {
-        return redirect('/admin/conferences')->with('success', __('messages.conference_created'));
+        Conference::create($request->validated());
+
+        return redirect('/admin/conferences')
+            ->with('success', __('messages.conference_created'));
     }
 
     public function edit($id)
     {
-        $conference = [
-            'id' => $id,
-            'title' => 'Laravel konferencija',
-            'description' => 'Apie Laravel framework',
-            'date' => '2026-04-01',
-            'location' => 'Vilnius'
-        ];
+        $conference = Conference::findOrFail($id);
 
         return view('admin.conferences.edit', compact('conference'));
     }
 
     public function update(ConferenceRequest $request, $id)
     {
-        return redirect('/admin/conferences')->with('success', __('messages.conference_updated'));
+        $conference = Conference::findOrFail($id);
+        $conference->update($request->validated());
+
+        return redirect('/admin/conferences')
+            ->with('success', __('messages.conference_updated'));
     }
 
     public function destroy($id)
     {
-        return redirect('/admin/conferences')->with('success', __('messages.conference_deleted'));
+        $conference = Conference::findOrFail($id);
+        $conference->delete();
+
+        return redirect('/admin/conferences')
+            ->with('success', __('messages.conference_deleted'));
     }
 }
