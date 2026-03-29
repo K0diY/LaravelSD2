@@ -7,6 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conference extends Model
 {
-    /** @use HasFactory<\Database\Factories\ConferenceFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'speakers',
+        'date',
+        'time',
+        'location',
+        'address',
+    ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_conferences');
+    }
 }
