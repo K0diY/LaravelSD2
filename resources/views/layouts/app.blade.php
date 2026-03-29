@@ -12,13 +12,38 @@
             <a class="navbar-brand" href="/">{{ __('messages.system_name') }}</a>
 
             <div class="navbar-nav me-auto">
-                <a class="nav-link" href="/client/conferences">{{ __('messages.client') }}</a>
-                <a class="nav-link" href="/employee/conferences">{{ __('messages.employee') }}</a>
-                <a class="nav-link" href="/admin">{{ __('messages.admin') }}</a>
+                @auth
+                    @if(auth()->user()->hasRole('client'))
+                        <a class="nav-link" href="/client/conferences">{{ __('messages.client') }}</a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('employee'))
+                        <a class="nav-link" href="/employee/conferences">{{ __('messages.employee') }}</a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('admin'))
+                        <a class="nav-link" href="/admin">{{ __('messages.admin') }}</a>
+                    @endif
+                @endauth
             </div>
 
-            <span class="navbar-text me-3 text-white">Vardenis Pavardenis</span>
-            <button class="btn btn-outline-light" disabled>{{ __('messages.logout') }}</button>
+            @guest
+                <a href="/register" class="btn btn-outline-light me-2">{{ __('messages.register') }}</a>
+                <a href="/login" class="btn btn-light">{{ __('messages.login') }}</a>
+            @endguest
+
+            @auth
+                <span class="navbar-text me-3 text-white">
+                    {{ auth()->user()->name }} {{ auth()->user()->surname }}
+                </span>
+
+                <form method="POST" action="/logout" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light">
+                        {{ __('messages.logout') }}
+                    </button>
+                </form>
+            @endauth
         </div>
     </nav>
 

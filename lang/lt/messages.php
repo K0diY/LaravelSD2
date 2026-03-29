@@ -41,4 +41,9 @@ return [
     'conference_updated' => 'Konferencija sėkmingai atnaujinta.',
     'conference_deleted' => 'Konferencija sėkmingai ištrinta.',
     'user_updated' => 'Naudotojas sėkmingai atnaujintas.',
+
+    'register' => 'Registruotis',
+    'login' => 'Prisijungti',
+    'password' => 'Slaptažodis',
+    'password_confirm' => 'Pakartokite slaptažodį',
 ];
